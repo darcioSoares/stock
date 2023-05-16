@@ -1,0 +1,25 @@
+{
+    "name": "soares/app-stock",
+    "description": "Project of stock simple",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        },
+        "files":["app/helpers/helpers.php"]
+    },
+    "authors": [
+        {
+            "name": "darciosoares",
+            "email": "darciosoares28@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "symfony/var-dumper": "6.3.x-dev"
+    },
+    "require": {
+        "jenssegers/blade": "dev-master"
+    }
+}
