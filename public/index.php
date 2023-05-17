@@ -39,4 +39,6 @@ define('PATH_PUBLIC', "http://{$_SERVER['HTTP_HOST']}/{$pastaInterna}");
 //$filterRoute = new FilterRoute();
 // dd($filterRoute->get() );
 
-dd(Router::run());
+// dd(Router::run());
+
+Router::run();
