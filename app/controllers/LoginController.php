@@ -3,6 +3,7 @@
 namespace app\controllers;
 use app\controllers\Controller;
 use app\core\Request;
+use app\models\User;
 
 class LoginController extends Controller
 {
@@ -14,7 +15,13 @@ class LoginController extends Controller
 
     public function login()
     {
-        dd(Request::all());
+        // dd(Request::all());
+        $user = new User();
+
+        $result = $user->login(Request::all());
+
+        dd($result);
+
     }
 
 

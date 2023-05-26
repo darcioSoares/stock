@@ -19,6 +19,20 @@
 
         <button>Enviar</button>
     </form>
+
+    <hr>
+    <h1>criar user</h1>
+    <form action="/create-user" method="post" enctype="multipart/form-data">
+      
+
+      <input type="text" name="email" value="" placeholder="email">
+      <input type="text" name="name" placeholder="name">
+      <input type="text" name="password" placeholder="password">
+      
+      <input type="file" name="file" placeholder="foto">
+
+      <button>Enviar</button>
+  </form>
     
 
 @endsection
