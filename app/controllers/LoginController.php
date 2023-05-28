@@ -14,8 +14,18 @@ class LoginController extends Controller
     }//end methods
 
     public function login()
-    {
-        // dd(Request::all());
+    {        
+        $resulValidation = \Helper::validatorRequest(Request::all());
+
+        if(isset($resulValidation['validatorError']))
+        {
+            echo json_encode(["status"=>false,"msg"=> 'Campos Obrigatorio']);
+            return;
+        }
+        
+
+        if(isset(Request::all()['email'])) echo json_encode(["status"=>false,"msg"=> 'Email obrigatorio']);
+        
         $user = new User();
 
         $result = $user->login(Request::all());
