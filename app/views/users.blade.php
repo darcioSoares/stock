@@ -107,6 +107,10 @@
         </div>
     </div>
 
+    {{-- modal loading --}}
+    <div id="modal-loading" class="modal-container-loading to-hide">
+      <div class="c-loading"> </div>
+    </div>
 
     {{-- container-fluid --}}
 </div>
@@ -121,17 +125,21 @@
       e.preventDefault();
       const formData = new FormData(this);
 
-        axios.post('/create-user', formData,{
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      document.getElementById('modal-loading').classList.remove('to-hide')
+
+      axios.post('/create-user', formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        document.getElementById('modal-loading').classList.add('to-hide')
+      })
+      .catch(function (error) {
+        console.log(error);
+        document.getElementById('modal-loading').classList.add('to-hide')
+      });
        
   })
   
