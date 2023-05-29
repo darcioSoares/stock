@@ -1,18 +1,16 @@
 @extends('templates.layout')
 
 @section('content')
-    <h1>Home teste home teste</h1>
-    <p>teste home</p>
-    <h1>meu nome e : {{$nome}}</h1>
 
-    <form action="/teste" method="post">
-        <input type="text" name="name" value="darcio">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
 
-        <input type="text" name="age" value="31">
-        <input type="text" name="email" value="darcio@dss">
+            <h1>home</h1>
 
-        <button>Enviar</button>
-    </form>
+        </div>
+    </div>
+</div>
     
 
 @endsection
