@@ -15,22 +15,45 @@ class LoginController extends Controller
 
     public function login()
     {        
-        $resulValidation = \Helper::validatorRequest(Request::all());
+        $resulValidation = \Helper::validatorRequestEmpty(Request::all());
 
         if(isset($resulValidation['validatorError']))
         {
-            echo json_encode(["status"=>false,"msg"=> 'Campos Obrigatorio']);
-            return;
+            $_SESSION['error_login'] = 'Senha ou Usuario, incorreto';                
+            header("location: login");
+            die();
         }
-        
 
-        if(isset(Request::all()['email'])) echo json_encode(["status"=>false,"msg"=> 'Email obrigatorio']);
-        
+        $request = Request::all();
+                      
         $user = new User();
+        $result = $user->login($request);
 
-        $result = $user->login(Request::all());
+        if($result['status']){
+        
+            $password = openssl_decrypt($result['password'],
+            $_ENV['CIPHER_METHODS'],
+            $_ENV['SECRET'],
+            0,
+            $_ENV['SECRET_2'] );
 
-        dd($result);
+            if($request['password'] === $password){
+
+                unset($result['password']);                                            
+                $_SESSION['user'] = $result;                               
+                header("location: home");
+                die();
+
+            }else{
+                $_SESSION['error_login'] = 'Senha ou Usuario, incorreto';                
+                header("location: login");
+                die();
+            }
+        }else{
+            $_SESSION['error_login'] = 'Usuario ou Senha incorreto';
+                  header("location: login");
+             die();
+        }
 
     }
 

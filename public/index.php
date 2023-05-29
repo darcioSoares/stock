@@ -1,5 +1,7 @@
 <?php 
 
+session_start(['name'=>'stock']);
+
 require '../vendor/autoload.php';
 
 use Dotenv\Dotenv;
