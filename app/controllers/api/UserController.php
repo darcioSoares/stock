@@ -10,6 +10,14 @@ class UserController extends Controller
 
     public function create()
     {    
+        $resulValidation = \Helper::validatorRequestEmpty(Request::all());
+
+        if(isset($resulValidation['validatorError']))
+        {            
+            echo json_encode(["status"=>false,"msg"=> "Dados Obrigatorios não foram preenchidos"]);
+            return;
+        }
+
         $email = Request::all()["email"];       
         $user = new User();
         $thereIsEmail = $user->thereIsEmail($email);
