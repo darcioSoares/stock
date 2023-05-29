@@ -4,11 +4,11 @@ namespace app\controllers;
 use app\models\User;
 use app\core\Request;
 
-Class UserController
+Class UserController extends Controller
 {
     public function index()
     {
-        dd("index user");
+        $this->view('users');
     }
 
     public function create($request)

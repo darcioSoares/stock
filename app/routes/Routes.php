@@ -9,11 +9,15 @@ class Routes {
         return [
             "get" => [
                 "/" => 'LoginController@index',
+                "/login" => 'LoginController@index',
                 
-                "/teste" => 'HomeController@index',
+                "/home" => 'HomeController@index',
+                "/users" => 'UserController@index',
+                "/user/[0-9]+" => 'UserController@index',
+
+                "/teste/teste" => 'HomeController@index',
                 "/teste/[0-9]+" => 'HomeController@teste',
                 "/teste/[a-z]+/sobrenome/[a-z]+" => 'HomeController@teste1',
-                "/user/[0-9]+" => 'UserController@index'
             ],
             "post" => [
                 "/teste" => 'HomeController@store',

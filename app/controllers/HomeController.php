@@ -6,13 +6,14 @@ use app\core\Request;
 class HomeController extends Controller
 {
     public function index()
-    {
-        $this->view('teste');
+    {       
+        $this->view('home');
     }
 
     public function teste($params)
     {
-        dd("teste -> homeController", "");
+        $this->view('teste');
+        // dd("teste -> homeController", "");
     }
 
     public function teste1($params)
