@@ -22,7 +22,7 @@ class Routes {
             "post" => [
                 "/teste" => 'HomeController@store',
                 "/login" => 'LoginController@login',
-                '/create-user' => 'UserController@create'
+                '/create-user' => 'api\UserController@create'
             ]
         ];
     }

@@ -9,6 +9,7 @@ use app\routes\Routes;
 use app\utility\RequestType;
 use app\utility\Uri;
 use app\core\FilterRoute;
+use app\core\Request;
 use app\core\Router;
 
 //config dotenv
@@ -29,6 +30,8 @@ define('PATH_PUBLIC', "http://{$_SERVER['HTTP_HOST']}/{$pastaInterna}");
                               //teste
 //Helper::teste();
 
+// dd($_SERVER);
+// dd(Request::all(), $_POST['data']);
 //dd(Routes::get());
 //dd(RequestType::get());
 //dd(Uri::get());
