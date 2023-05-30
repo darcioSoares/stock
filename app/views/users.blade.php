@@ -16,7 +16,7 @@
                 <div class="accordion-item">
                   <h2 class="accordion-header" >
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"     style="background: var(--color--purple); color:white;">
-                      Accordion Item #1
+                      Usuarios
                     </button>
                   </h2>
                   {{-- add class show na div id="collapseOne" --}}
@@ -38,11 +38,11 @@
                           <div class="row mb-3">
                             <div class="col-12 col-sm-6">
                               <label for="password">Senha</label>
-                              <input type="text" class="form-control" placeholder="password" name="password" >
+                              <input type="text" class="form-control" placeholder="password" id="password" name="password" >
                             </div>
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-5">
                               <label for="repeat_password">Repita a Senha</label>
-                              <input type="text" class="form-control"placeholder="Repita a senha" name="repeat_password" >
+                              <input type="text" class="form-control"placeholder="Repita a senha" name="repeat_password" id="repeat_password"> 
                             </div>
                           </div>
 
@@ -115,33 +115,54 @@
     {{-- container-fluid --}}
 </div>
     
+{{-- falta colocar limitadores de caracteres do proprio html 
+add olho magico na senha e confirmação de senha --}}
 
 @endsection
 @push('script')
 <script>
   const form = document.getElementById('form-create-user')
   
-  form.addEventListener('submit', async function(e){
+  form.addEventListener('submit',function(e){
       e.preventDefault();
       const formData = new FormData(this);
 
-      document.getElementById('modal-loading').classList.remove('to-hide')
+      let repeatPassword = document.getElementById("repeat_password")
+      let password = document.getElementById("password")
+ 
 
-      axios.post('/create-user', formData,{
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      })
-      .then(function (response) {
-        console.log(response);
-        document.getElementById('modal-loading').classList.add('to-hide')
-      })
-      .catch(function (error) {
-        console.log(error);
-        document.getElementById('modal-loading').classList.add('to-hide')
-      });
+     if(repeatPassword.value != password.value)
+     {
+        repeatPassword.classList.add('is-invalid')
+        password.classList.add('is-invalid')
+     }else{
+        repeatPassword.classList.remove('is-invalid')
+        password.classList.remove('is-invalid')        
+     }
+
+     //verificando se as senhas estão iguais
+     if(password.classList.contains('is-invalid')) return
+        
        
-  })
+    document.getElementById('modal-loading').classList.remove('to-hide')
+
+        axios.post('/create-user', formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        })
+        .then(function (response) {
+          console.log(response);
+          alert(`${response.data.msg}`)
+          document.getElementById('modal-loading').classList.add('to-hide')
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert('Erro! tente novamente')
+          document.getElementById('modal-loading').classList.add('to-hide')
+    });  
+
+  })//end event form
   
 </script>
 @endpush
