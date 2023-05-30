@@ -161,5 +161,34 @@ class User extends Model
 
     }//end method
 
+    public function all():array
+    {
+        try{          
+                              
+            $this->conn->beginTransaction();
+
+            $stmt = $this->conn->prepare("SELECT id, name, email, professional_position FROM $this->table");
+                                            
+            $stmt->execute();            
+            $this->conn->commit(); 
+            
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if(count($results) == 0){
+                return ["status"=> false, 'msg'=>'Nenhum Usúario encontrado'];
+            }else{   
+                return $results;
+            }         
+    
+        }catch(PDOException $e){
+            $this->conn->rollback();
+            echo 'Error database: ' . $e->getMessage();
+        }catch(Exception $e){
+            echo 'Error: ' . $e->getMessage();
+        }
+
+
+    }//end method
+
 
 }//end class

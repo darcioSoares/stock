@@ -74,34 +74,30 @@
     <div class="row mt-5">
 
         <div class="col-8 m-auto">
+            <div class="text-center mb-3">
+              <h1>Tabela de Usuários</h1>
+            </div>
             <table class="table table-striped">
 
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    {{-- <th scope="col">#</th> --}}
+                    <th scope="col">Açoes</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Posição</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                  @foreach ($users as $user)
+                      <tr>
+                        <td class="d-none">{{$user['id']}}</td>
+                        <td>{!!$user['button']!!}</td>
+                        <td>{{$user['name']}}</td>
+                        <td>{{$user['email']}}</td>
+                        <td>{{$user['professional_position'] ?? 'não definido'}}</td>
+                      </tr>
+                  @endforeach
                 </tbody>
               </table>
         </div>
