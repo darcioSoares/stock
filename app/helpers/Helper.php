@@ -2,12 +2,6 @@
 
 class Helper
 {
-
-    public static function teste()
-    {
-        dd("testando helpers");
-    }
-
     //validação simples chcando se tem campos vazios
     public static function validatorRequestEmpty(array $ar)
     {
@@ -19,6 +13,11 @@ class Helper
              }                        
         }
         return $ar;
+    }
+
+    public static function auth()
+    {
+        return (object) $_SESSION['user'];
     }
 
 
