@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 use app\core\Request;
+use app\utility\Csrf;
 
 class TestController extends Controller
 {
@@ -12,8 +13,9 @@ class TestController extends Controller
 
     public function teste($params)
     {
-        //$this->view('teste');
-        dd("TestControlle ->");
+        Csrf::validatorCsrf();        
+        
+        dd("TestControlle -> ok");
     }
 
 }//end 

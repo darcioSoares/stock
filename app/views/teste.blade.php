@@ -13,7 +13,7 @@
 
     <form id="form1" action="/teste" method="post">
         <input type="text" name="name" value="darcio">
-
+        {!! Csrf::csrf() !!}
         <input type="text" name="age" value="31">
         <input type="text" name="email" value="darcio@dss">
 
