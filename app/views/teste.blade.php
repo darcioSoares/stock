@@ -11,7 +11,7 @@
     <p>teste home</p>
     <h1>meu nome e : {{$nome}}</h1>
 
-    <form action="/teste" method="post">
+    <form id="form1" action="/teste" method="post">
         <input type="text" name="name" value="darcio">
 
         <input type="text" name="age" value="31">
@@ -22,7 +22,7 @@
 
     <hr>
     <h1>criar user</h1>
-    <form action="/create-user" method="post" enctype="multipart/form-data">
+    <form  id="form2" method="post" enctype="multipart/form-data">
       
 
       <input type="text" name="email" value="" placeholder="email">
