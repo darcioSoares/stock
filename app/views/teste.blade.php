@@ -22,14 +22,14 @@
 
     <hr>
     <h1>criar user</h1>
-    <form  id="form2" method="post" enctype="multipart/form-data">
+    <form  id="form2" action="/teste" method="post" enctype="multipart/form-data">
       
 
-      <input type="text" name="email" value="" placeholder="email">
-      <input type="text" name="name" placeholder="name">
-      <input type="text" name="password" placeholder="password">
+      <input type="text" name="email"  placeholder="email" value="name@email">
+      <input type="text" name="name" placeholder="name" value="name-teste">
+      <input type="text" name="password" placeholder="password" value="123">
       
-      <input type="file" name="file" placeholder="foto">
+      {{-- <input type="file" name="file" placeholder="foto"> --}}
 
       <button>Enviar</button>
   </form>
