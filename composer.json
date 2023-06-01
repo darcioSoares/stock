@@ -9,7 +9,8 @@
         },
         "files":[
             "app/helpers/Helper.php",
-            "app/helpers/Csrf.php"
+            "app/helpers/Csrf.php",
+            "app/helpers/FlashMessage.php"
          ]
         
     },
