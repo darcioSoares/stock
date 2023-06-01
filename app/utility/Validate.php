@@ -56,10 +56,14 @@ class Validate
                     if(empty($inputsValidation[$nameField]))
                         break;
                 }           
-            }
-        }
+            }          
+        }//end foreach    
 
-        
+        // dd($inputsValidation);
+        if(in_array(null,$inputsValidation, true))
+            return null;
+
+        return $inputsValidation[$nameField];    
 
     }//end method
 

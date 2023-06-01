@@ -6,10 +6,13 @@ class FlashMessage
 {
     public static function message(string $index, string $style = "")
     {
-        
+        if(isset($_SESSION[$index])){
             $message = SessionFlashMessage::get($index);
 
-            return "<p class='{$style}'>{$message}</p>";
+            return "<span class='{$style}'>{$message}</span>";
+        }
+
+        return;
         
     }
 }//end FlashMessage

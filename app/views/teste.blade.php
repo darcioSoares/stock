@@ -22,11 +22,15 @@
 
     <hr>
     <h1>criar user</h1>
-    <form  id="form2" action="/teste" method="post" enctype="multipart/form-data">
-      
+    
+    <form  id="form2" action="/teste" method="post" enctype="multipart/form-data">      
 
       <input type="text" name="email"  placeholder="email" value="name@email">
+      {!!FlashMessage::message('email','alert alert-danger')!!}
+      <hr>
       <input type="text" name="name" placeholder="name" value="name-teste">
+      {!!FlashMessage::message('name','alert alert-danger')!!}
+      <hr>
       <input type="text" name="password" placeholder="password" value="123">
       
       {{-- <input type="file" name="file" placeholder="foto"> --}}

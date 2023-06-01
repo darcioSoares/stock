@@ -3,6 +3,7 @@
 namespace app\traits;
 
 use app\core\Request;
+use app\utility\SessionFlashMessage;
 
 trait Validations 
 {
@@ -11,8 +12,13 @@ trait Validations
 
     }
 
-    public function email()
+    public function email($nameField)
     {
+        if(!filter_input(INPUT_POST,$nameField, FILTER_VALIDATE_EMAIL)){
+            SessionFlashMessage::set($nameField, "Campo obrigatorio");
+            return null;
+        }
+        return strip_tags(Request::input($nameField), '<p><b><span><em>');
         
     }
 
@@ -21,8 +27,10 @@ trait Validations
         $data = Request::input($nameField);
 
         if(empty($data)){
+            SessionFlashMessage::set($nameField, "Campo obrigatorio");
             return null;
         }
+        return strip_tags($data, '<p><b><span><em>');
     }
 
     public function maxLen($nameField, $param)
@@ -30,10 +38,11 @@ trait Validations
         $data = Request::input($nameField);
 
         if(strlen($data) > $param){
+            SessionFlashMessage::set($nameField, "Campo obrigatorio");
             return null;
         }
 
-        dd($data);
+        return strip_tags($data, '<p><b><span><em>');
     }
 
 }//end trait

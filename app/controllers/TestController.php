@@ -4,6 +4,7 @@ namespace app\controllers;
 use app\core\Request;
 use app\utility\Csrf;
 use app\utility\Validate;
+use Helper;
 
 class TestController extends Controller
 {
@@ -20,15 +21,20 @@ class TestController extends Controller
 
         $validate = new Validate();
 
-        $validate->validator([
+        $valid = $validate->validator([
             // 'firstName'=> 'required',
-            // 'lastName'=> 'required',
-            // 'email' => 'email|required',
-            'password'=>'maxLen:10|required'
+            'name'=> 'required',
+            'email' => 'email|required',
+            // 'password'=>'maxLen:10|required'
             
         ]);
+        
+        // dd($valid);
+        if(!$valid){            
+            return Helper::redirect('teste');
+        }
 
-
+        // dd($valid, "validaded");
         
         // dd("TestControlle -> ok");
     }
