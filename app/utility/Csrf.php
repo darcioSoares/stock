@@ -22,9 +22,10 @@ class Csrf
         if(!isset($_SESSION['token']))
             throw new Exception('Token invalido');
 
-            $token = Request::input('token');         
-
-            if($_SESSION['token'] != $token)
+            $token = Request::input('token');  
+                   
+            //empty($token) por q se o form não tiver o csrf estava retornando [] vazio
+            if(empty($token) || $_SESSION['token'] != $token)
                 throw new Exception('Token invalido');
 
         return true;
