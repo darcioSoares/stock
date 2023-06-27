@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="topnav" id="myTopnav">
-        <a href="home" class="active">Home</a>
+        <a href="home" class="active">{{\Helper::auth()->email }}</a>
         <a href="users">Usuarios</a>
-        <a href="#contact">Categorias</a>
+        <a href="categories">Categorias</a>
         <a href="#about">Produto</a>
         <a href="#about">Fornecedor</a>
         <a href="javascript:void(0);" class="icon" onclick="responsive()">
