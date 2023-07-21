@@ -5,6 +5,8 @@ session_start(['name'=>'stock']);
 require '../vendor/autoload.php';
 
 use Dotenv\Dotenv;
+
+    // teste
 use app\routes\Routes;
 use app\utility\RequestType;
 use app\utility\Uri;
@@ -22,21 +24,24 @@ $dotenv->load();
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.uft-8','portuguese');
 
-//pastaInterna ex caso coloque dentro de outra pasta ex public/asset/ ao inves de só public
+//pastaInterna, caso coloque dentro de outra pasta ex public/asset/ ao inves de só public
 $pastaInterna = "";
-//PATH_PUBLIC pegando a url da aplicação, ele já esta na raiz dentro da pasta public
+//PATH_PUBLIC pegando a url da aplicação, já esta na raiz dentro da pasta public
 define('PATH_PUBLIC', "http://{$_SERVER['HTTP_HOST']}/{$pastaInterna}");
+
+
+
 
                               //teste
 //Helper::teste();
 
 // dd($_SERVER);
 // dd(Request::all(), $_POST['data']);
-//dd(Routes::get());
+// dd(Routes::get());
 //dd(RequestType::get());
 //dd(Uri::get());
 
-//$filterRoute = new FilterRoute();
+// $filterRoute = new FilterRoute();
 // dd($filterRoute->get() );
 
 // dd(Router::run());

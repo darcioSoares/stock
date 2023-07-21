@@ -13,14 +13,16 @@ class Routes {
                 "/teste" => 'TestController@index',
                 "/home" => 'HomeController@index',
                 "/users" => 'UserController@index',
-                "/user/[0-9]+" => 'UserController@index',              
+                "/user/[0-9]+" => 'UserController@index',  
+                "/categories" => 'CategoryController@index',            
                 "/teste/[0-9]+" => 'HomeController@teste',
                 "/teste/[a-z]+/sobrenome/[a-z]+" => 'HomeController@teste1',
             ],
             "post" => [
                 "/teste" => 'TestController@teste',
                 "/login" => 'LoginController@login',
-                '/create-user' => 'api\UserController@create'
+                '/create-user' => 'api\UserController@create',
+                "/create-category" => 'api\CategoryController@index'
             ]
         ];
     }
