@@ -12,21 +12,7 @@ Class UserController extends Controller
 
         $users = $user->all();
 
-       
-
-       foreach($users as &$value)
-       {
-            $id = $value['id'];
-            $value['button'] = '<button class="btn" id="$id"> Açao </button>';
-       }
-
-    //    dd($users);
-
         $this->view('users',compact('users'));
     }
-
-    
-       
-
 
 }

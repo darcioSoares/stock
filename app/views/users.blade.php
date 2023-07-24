@@ -90,9 +90,8 @@
                 </thead>
                 <tbody>
                   @foreach ($users as $user)
-                      <tr>
-                        <td class="d-none">{{$user['id']}}</td>
-                        <td>{!!$user['button']!!}</td>
+                      <tr>                   
+                        <td onclick="profile(this)" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$user['id']}}">Perfil</td>
                         <td>{{$user['name']}}</td>
                         <td>{{$user['email']}}</td>
                         <td>{{$user['professional_position'] ?? 'não definido'}}</td>
@@ -160,5 +159,14 @@ add olho magico na senha e confirmação de senha --}}
 
   })//end event form
   
+
+  function profile(elem){
+
+    alert("apertou")
+    console.log(elem.id)
+
+    window.location.href = `/page/${elem.id}`;
+  }
+
 </script>
 @endpush
