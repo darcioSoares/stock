@@ -33,8 +33,7 @@
                               <label for="name">Segmento</label>
                               <input type="text" class="form-control" placeholder="Segmento" id="segment"  name="segment">
                             </div>
-                          </div>
-                                   
+                          </div>                                   
                               <button class="btn btn-info">Enviar</button>
                       </form>
                     </div>
@@ -53,25 +52,22 @@
               <h1>Tabela de Categorias</h1>
             </div>
             <table class="table table-striped">
-
                 <thead>
-                  <tr>
-                    {{-- <th scope="col">#</th> --}}
-                    <th scope="col">Açoes</th>
+                  <tr>                   
+                    <th scope="col">Acao</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Segmento</th>                   
                   </tr>
                 </thead>
                 <tbody>
-                  {{-- @foreach ($users as $user)
+                  @foreach ($categories as $category)
                       <tr>
-                        <td class="d-none">{{$user['id']}}</td>
-                        <td>{!!$user['button']!!}</td>
-                        <td>{{$user['name']}}</td>
-                        <td>{{$user['email']}}</td>
-                        <td>{{$user['professional_position'] ?? 'não definido'}}</td>
+                        <td onclick="category(this)" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$category['id']}}">
+                          Consultar</td>                    
+                        <td>{{$category['name']}}</td>
+                        <td>{{$category['segment']}}</td>                     
                       </tr>
-                  @endforeach --}}
+                  @endforeach
                 </tbody>
               </table>
         </div>
@@ -92,46 +88,57 @@
   const form = document.getElementById('form-create-categories')
   
   form.addEventListener('submit',function(e){
-      e.preventDefault();
-      const formData = new FormData(this);
+    e.preventDefault();
+            
+    let segment = document.getElementById('segment');
+    let name = document.getElementById('name');
 
-      let segment = document.getElementById('segment');
-      let name = document.getElementById('name');
+    if(segment.value == "" ){
+      segment.classList.add('is-invalid')                   
+    }else{
+      segment.classList.remove('is-invalid')  
+    }
 
-      if(segment.value == "" ){
-         segment.classList.add('is-invalid')                   
-      }else{
-         segment.classList.remove('is-invalid')  
-      }
-
-      if(name.value == ""){
-        name.classList.add('is-invalid') 
-      }else{
-        name.classList.remove('is-invalid') 
-      }
+    if(name.value == ""){
+      name.classList.add('is-invalid') 
+    }else{
+      name.classList.remove('is-invalid') 
+    }
     
-     if(segment.classList.contains('is-invalid') || name.classList.contains('is-invalid')) return
-        
+    if(segment.classList.contains('is-invalid') || name.classList.contains('is-invalid')) return        
        
     document.getElementById('modal-loading').classList.remove('to-hide')
 
-        axios.post('/create-category', formData,{
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then(function (response) {
+    const formData = new FormData(this);
+     
+         
+    axios.post('/create-category', formData,{
+      headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })    
+    .then(function (response) {
           console.log(response);
-          alert(`${response.data.msg}`)
+          alert(`${response}`)
           document.getElementById('modal-loading').classList.add('to-hide')
-        })
-        .catch(function (error) {
+    })
+    .catch(function (error) {
           console.log(error);
           alert('Erro! tente novamente')
           document.getElementById('modal-loading').classList.add('to-hide')
     });  
 
+  
   })//end event form
+
+
+  function category(elem){
+
+    alert("apertou")
+    console.log(elem.id)
+
+    window.location.href = `/category/${elem.id}`;
+  }
   
 </script>
 @endpush
