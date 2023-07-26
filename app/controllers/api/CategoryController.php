@@ -2,11 +2,25 @@
 namespace app\controllers\api;
 
 use app\core\Request;
+use app\models\Category;
 
 class CategoryController
 {
-    public function index(){
+    public function create(){
+      
+       $category = new Category();
 
-        dd("teste category api", Request::all());
+       $result = $category->create(Request::all());
+       
+       if($result['status'])
+       {            
+           echo json_encode(["status"=>true,"msg"=> "Categoria Salva com Sucesso!"]);
+           return;        
+       }else{
+           echo json_encode(["status"=>false,"msg"=> "Error: Não foi possivel salvar a Categoria!"]);
+           return;
+       }
+       
+              
     }
 }

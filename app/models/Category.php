@@ -11,27 +11,25 @@ class Category extends Model
 {
     private $table = 'categories';
 
-    public function create(array $data)
+    public function create(array $data):array
     {
         try{           
    
             $this->conn->beginTransaction();
 
-            $stmt = $this->conn->prepare("INSERT INTO $this->table(name, segment) VALUES(:NAME,:SEGMENT");
+            $stmt = $this->conn->prepare("INSERT INTO $this->table(name, segment) VALUES(:NAME,:SEGMENT)");
           
                 
             $stmt->bindParam(":NAME",$data['name']);
             $stmt->bindParam(":SEGMENT",$data['segment']);
                                                 
-            $stmt->execute();
-            $result = $this->conn->lastInsertId();
-
+            $stmt->execute();           
             $this->conn->commit(); 
-            
+                       
             if($stmt->rowCount() == 0 ){
                 return ["status"=> false];
             }else{
-                return ["status"=> true,"row"=>$stmt->rowCount(),"lastId"=> $result];
+                return ["status"=> true,"row"=>$stmt->rowCount()];
             }
                  
     
@@ -39,6 +37,7 @@ class Category extends Model
             $this->conn->rollback();
             echo 'Error database: ' . $e->getMessage();
         }catch(Exception $e){
+            $this->conn->rollback();
             echo 'Error: ' . $e->getMessage();
         }
 
@@ -92,7 +91,7 @@ class Category extends Model
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if(count($results) == 0){
-                return ["status"=> false, 'msg'=>'Nenhuma Categoria encontrada'];
+                return ["status"=> false];
             }else{   
                 return $results;
             }         

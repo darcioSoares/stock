@@ -22,7 +22,7 @@ class Routes {
                 "/teste" => 'TestController@teste',
                 "/login" => 'LoginController@login',
                 '/create-user' => 'api\UserController@create',
-                "/create-category" => 'api\CategoryController@index'
+                "/create-category" => 'api\CategoryController@create'
             ]
         ];
     }

@@ -117,9 +117,8 @@
             'Content-Type': 'application/x-www-form-urlencoded',
       }
     })    
-    .then(function (response) {
-          console.log(response);
-          alert(`${response}`)
+    .then(function (res) {
+          alert(`${res.data.msg}`)
           document.getElementById('modal-loading').classList.add('to-hide')
     })
     .catch(function (error) {
@@ -127,7 +126,6 @@
           alert('Erro! tente novamente')
           document.getElementById('modal-loading').classList.add('to-hide')
     });  
-
   
   })//end event form
 
