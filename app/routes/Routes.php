@@ -14,7 +14,8 @@ class Routes {
                 "/home" => 'HomeController@index',
                 "/users" => 'UserController@index',
                 "/user/[0-9]+" => 'UserController@index',  
-                "/categories" => 'CategoryController@index',            
+                "/categories" => 'CategoryController@index',     
+                "/products" => 'ProductController@index',       
                 "/teste/[0-9]+" => 'HomeController@teste',
                 "/teste/[a-z]+/sobrenome/[a-z]+" => 'HomeController@teste1',
             ],
@@ -22,7 +23,8 @@ class Routes {
                 "/teste" => 'TestController@teste',
                 "/login" => 'LoginController@login',
                 '/create-user' => 'api\UserController@create',
-                "/create-category" => 'api\CategoryController@create'
+                "/create-category" => 'api\CategoryController@create',
+                "/create-product" => 'api\ProductController@create'
             ]
         ];
     }
