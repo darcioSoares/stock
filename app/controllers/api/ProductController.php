@@ -2,7 +2,7 @@
 namespace app\controllers\api;
 
 use app\core\Request;
-// use app\models\Category;
+use app\models\Category;
 
 class ProductController
 {
