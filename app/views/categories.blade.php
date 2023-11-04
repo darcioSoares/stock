@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
         <div class="col-8  m-auto">
 
             <div style="text-align: center;">
                 <h1>
-                    Criação e listagem de Categorias
+                 <span v-html="name"></span>
                 </h1>
             </div>
 
@@ -19,22 +19,25 @@
                       Categorias
                     </button>
                   </h2>
-                  {{-- add class show na div id="collapseOne" --}}
+                 
                   <div id="collapseOne" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
                       <form id="form-create-categories" >
                         <div class="row mb-3">
                             <div class="col-12 col-sm-6">
-                              <label for="name">Nome</label>
-                              <input type="text" class="form-control" placeholder="Nome" id="name" name="name">
+                              <label for="name">Name:</label>
+                              <input type="text" class="form-control" placeholder="Nome" v-model.trim="formData.name" >
+                             <!--  <span v-if="!isNameValid">Name is required and must be less than 200 characters.</span> -->
+
                             </div>
                             <div class="col-12 col-sm-6">
-                              <label for="name">Segmento</label>
-                              <input type="text" class="form-control" placeholder="Segmento" id="segment"  name="segment">
+                              <label for="name">Segment:</label>
+                              <input type="text" class="form-control" placeholder="Segmento" v-model.trim="formData.segment">
+                          <!--     <span v-if="!isSegmentValid">Segment is required and must be less than 200 characters.</span> -->
                             </div>
                           </div>                                   
-                              <button class="btn btn-info">Enviar</button>
+                              <button v-on:click.prevent="submitData" :disabled="!isFormValid" class="btn btn-info">Enviar</button>
                       </form>
                     </div>
 
@@ -49,7 +52,7 @@
 
         <div class="col-8 m-auto">
             <div class="text-center mb-3">
-              <h1>Tabela de Categorias</h1>
+              <h1 v-html="nameTable"></h1>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -62,7 +65,7 @@
                 <tbody>
                   @foreach ($categories as $category)
                       <tr>
-                        <td onclick="category(this)" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$category['id']}}">
+                        <td v-on:click="Redirect({{$category['id']}})" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$category['id']}}">
                           Consultar</td>                    
                         <td>{{$category['name']}}</td>
                         <td>{{$category['segment']}}</td>                     
@@ -84,59 +87,87 @@
 
 @endsection
 @push('script')
+
 <script>
-  const form = document.getElementById('form-create-categories')
-  
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
+    const categories = {
+        data(){
+            return{
+                name:"Criação e listagem de Categorias",
+                nameTable:"Tabela de Categorias",
+                formData:{
+                  name:'',
+                  segment:''
+                }
+            }
+
+        },
+         computed: {
+            isNameValid() {
+                return this.formData.name.trim() !== '' && this.formData.name.length <= 200;
+            },
+            isSegmentValid() {
+                return this.formData.segment.trim() !== '' && this.formData.segment.length <= 200;
+            },
+            isFormValid() {
+                return this.isNameValid && this.isSegmentValid;
+            }
+        }, 
+
+       methods:{
+     /*         isNameValid() {
+                return this.formData.name.trim() !== '' && this.formData.name.length <= 200;
+            },
+            isSegmentValid() {
+                return this.formData.segment.trim() !== '' && this.formData.segment.length <= 200;
+            }, */
+
+/*             isFormValid() {
+                return this.isNameValid && this.isSegmentValid;
+            }, */
+
+            submitData() {
+                    if (this.isFormValid) {
+                        // Enviar dados
+                        console.log('Formulário válido. Enviando dados:', this.formData);                        document.getElementById('modal-loading').classList.remove('to-hide')
+
+                        this.fetchData(this.formData)
+
+                    } else {
+                      alert("Ocorreu algum erro, tente novamente")
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                    }
+
+                  
+            },
+
+            Redirect(id){
+              alert(`${id}`)
+              window.location.href = `/page/${id}`;
+            },
+
+            fetchData(data){
+                document.getElementById('modal-loading').classList.remove('to-hide')
+
+                axios.post('/create-category', data,{
+                headers: {
+                'Content-Type':'application/json',
+                  }
+                })    
+                .then(function (res) {
+                      alert(`${res.data.msg}`)
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                })
+                .catch(function (error) {
+                      console.log(error);
+                      alert('Erro! tente novamente')
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                });  
+            }
+        }
+    }
+
+    Vue.createApp(categories).mount("#app")
             
-    let segment = document.getElementById('segment');
-    let name = document.getElementById('name');
-
-    if(segment.value == "" ){
-      segment.classList.add('is-invalid')                   
-    }else{
-      segment.classList.remove('is-invalid')  
-    }
-
-    if(name.value == ""){
-      name.classList.add('is-invalid') 
-    }else{
-      name.classList.remove('is-invalid') 
-    }
-    
-    if(segment.classList.contains('is-invalid') || name.classList.contains('is-invalid')) return        
-       
-    document.getElementById('modal-loading').classList.remove('to-hide')
-
-    const formData = new FormData(this);
-     
-         
-    axios.post('/create-category', formData,{
-      headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    })    
-    .then(function (res) {
-          alert(`${res.data.msg}`)
-          document.getElementById('modal-loading').classList.add('to-hide')
-    })
-    .catch(function (error) {
-          console.log(error);
-          alert('Erro! tente novamente')
-          document.getElementById('modal-loading').classList.add('to-hide')
-    });  
+</script>       
   
-  })//end event form
-
-
-  function category(elem){
-
-    alert("apertou")
-    console.log(elem.id)
-
-    window.location.href = `/category/${elem.id}`;
-  }
-  
-</script>
 @endpush
