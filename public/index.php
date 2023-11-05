@@ -1,6 +1,8 @@
 <?php 
 
 session_start(['name'=>'stock']);
+// Define o tempo de vida da sessão para 30 minutos
+ini_set('session.gc_maxlifetime', 1800);
 
 require '../vendor/autoload.php';
 
