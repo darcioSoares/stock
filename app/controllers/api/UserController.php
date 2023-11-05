@@ -34,14 +34,7 @@ class UserController extends Controller
             
             $request = Request::all();
 
-            $openssl = openssl_encrypt(
-                $request['password'],
-                $_ENV['CIPHER_METHODS'],
-                $_ENV['SECRET'],
-                0,
-                $_ENV['SECRET_2']       
-            );  
-            $request['password'] = $openssl;
+            $request['password'] = password_hash($request['password'], PASSWORD_DEFAULT);
 
             $user = new User();
             $result = $user->create($request);
@@ -72,14 +65,16 @@ class UserController extends Controller
         }else{
             $request = Request::all();
            
-            $openssl = openssl_encrypt(
+/*             $openssl = openssl_encrypt(
                 $request['password'],
                 $_ENV['CIPHER_METHODS'],
                 $_ENV['SECRET'],
                 0,
                 $_ENV['SECRET_2']       
             ); 
-            $request['password'] = $openssl;
+            $request['password'] = $openssl; */
+
+            $request['password'] = password_hash($request['password'], PASSWORD_DEFAULT);
             
             $user = new User();
             $result = $user->create($request);

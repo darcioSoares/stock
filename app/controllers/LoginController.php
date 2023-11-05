@@ -31,13 +31,9 @@ class LoginController extends Controller
 
         if($result['status']){
         
-            $password = openssl_decrypt($result['password'],
-            $_ENV['CIPHER_METHODS'],
-            $_ENV['SECRET'],
-            0,
-            $_ENV['SECRET_2'] );
+           
 
-            if($request['password'] === $password){
+            if(password_verify($request['password'], $result['password'])){
 
                 unset($result['password']);                                            
                 $_SESSION['user'] = $result;                               
