@@ -26,6 +26,7 @@
     },
     "require": {
         "jenssegers/blade": "dev-master",
-        "vlucas/phpdotenv": "^5.5@dev"
+        "vlucas/phpdotenv": "^5.5@dev",
+        "phpmailer/phpmailer": "dev-master"
     }
 }
