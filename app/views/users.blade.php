@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
         <div class="col-8  m-auto">
 
             <div style="text-align: center;">
-                <h1>
-                    Criação e listagem de Usuario
+                <h1 v-html="name">
+                    
                 </h1>
             </div>
 
@@ -27,22 +27,22 @@
                         <div class="row mb-3">
                             <div class="col-12 col-sm-6">
                               <label for="name">Nome</label>
-                              <input type="text" class="form-control" placeholder="Nome"  name="name">
+                              <input type="text" class="form-control" placeholder="Nome"  name="name" v-model.trim="formData.name" >
                             </div>
                             <div class="col-12 col-sm-6">
                               <label for="name">Email</label>
-                              <input type="email" class="form-control" placeholder="Email"  name="email">
+                              <input type="email" class="form-control" placeholder="Email"  name="email" v-model.trim="formData.email" >
                             </div>
                           </div>
 
                           <div class="row mb-3">
                             <div class="col-12 col-sm-6">
                               <label for="password">Senha</label>
-                              <input type="text" class="form-control" placeholder="password" id="password" name="password" >
+                              <input type="text" class="form-control" placeholder="password" id="password" name="password" v-model.trim="formData.password"  >
                             </div>
                             <div class="col-12 col-sm-5">
                               <label for="repeat_password">Repita a Senha</label>
-                              <input type="text" class="form-control"placeholder="Repita a senha" name="repeat_password" id="repeat_password"> 
+                              <input type="text" class="form-control"placeholder="Repita a senha" name="repeat_password" id="repeat_password" v-model.trim="formData.repeat_password"> 
                             </div>
                           </div>
 
@@ -60,7 +60,7 @@
                               <input type="file" class="form-control" placeholder="image" id="image" name="image" >
                             </div>
                           </div>
-                              <button class="btn btn-info">Enviar</button>
+                              <button v-on:click.prevent="submitData" :disabled="!isFormValid" class="btn btn-info">Enviar</button>
                       </form>
                     </div>
 
@@ -75,7 +75,7 @@
 
         <div class="col-8 m-auto">
             <div class="text-center mb-3">
-              <h1>Tabela de Usuários</h1>
+              <h1 v-html="nameTable"></h1>
             </div>
             <table class="table table-striped">
 
@@ -91,7 +91,7 @@
                 <tbody>
                   @foreach ($users as $user)
                       <tr>                   
-                        <td onclick="profile(this)" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$user['id']}}">Perfil</td>
+                        <td v-on:click="profileRedirect({{$user['id']}})" style="background:var(--color--purple); color:white; cursor: pointer;" id="{{$user['id']}}">Perfil</td>
                         <td>{{$user['name']}}</td>
                         <td>{{$user['email']}}</td>
                         <td>{{$user['professional_position'] ?? 'não definido'}}</td>
@@ -115,58 +115,94 @@ add olho magico na senha e confirmação de senha --}}
 
 @endsection
 @push('script')
+
 <script>
-  const form = document.getElementById('form-create-user')
-  
-  form.addEventListener('submit',function(e){
-      e.preventDefault();
-      const formData = new FormData(this);
+    const user = {
+        data(){
+            return{
+                name:"Criação e listagem de Usuario",
+                nameTable:"Tabela de Categorias",
+                formData:{
+                  name:'',
+                  email:'',
+                  password:'',
+                  repeat_password:'',
+                  professional_position:'',
+                  image:'',
+                }
+            }
 
-      let repeatPassword = document.getElementById("repeat_password")
-      let password = document.getElementById("password")
- 
+        },
+         computed: {
+            isNameValid() {
+                return this.formData.name.trim() !== '' && this.formData.name.length <= 200;
+            },
+            isEmailValid() {
+                return this.formData.email.trim() !== '' && this.formData.email.length <= 200;
+            },
+            isPasswordValid() {
+                return this.formData.password.trim() !== '' && this.formData.password.length >= 6;
+            },
+            isPasswordConfirmation() {
+                return this.formData.password === this.formData.repeat_password;
+            },
+            isFormValid() {
+                return(
+                  this.isNameValid &&
+                  this.isEmailValid &&
+                  this.isPasswordValid &&
+                  this.isPasswordConfirmation
+                );
+            }
+        }, 
 
-     if(repeatPassword.value != password.value)
-     {
-        repeatPassword.classList.add('is-invalid')
-        password.classList.add('is-invalid')
-     }else{
-        repeatPassword.classList.remove('is-invalid')
-        password.classList.remove('is-invalid')        
-     }
+       methods:{
 
-     //verificando se as senhas estão iguais
-     if(password.classList.contains('is-invalid')) return
-        
-       
-    document.getElementById('modal-loading').classList.remove('to-hide')
+            submitData() {
+                    if (this.isFormValid) {
+                        // Enviar dados
+                        console.log('Formulário válido. Enviando dados:', this.formData);                        document.getElementById('modal-loading').classList.remove('to-hide')
 
-        axios.post('/create-user', formData,{
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-        })
-        .then(function (response) {
-          console.log(response);
-          alert(`${response.data.msg}`)
-          document.getElementById('modal-loading').classList.add('to-hide')
-        })
-        .catch(function (error) {
-          console.log(error);
-          alert('Erro! tente novamente')
-          document.getElementById('modal-loading').classList.add('to-hide')
-    });  
+                        this.fetchData(this.formData)
 
-  })//end event form
-  
+                    } else {
+                      alert("Ocorreu algum erro, tente novamente")
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                    }
 
-  function profile(elem){
+                  
+            },
 
-    alert("apertou")
-    console.log(elem.id)
+            profileRedirect(id){
+              alert(`${id}`)             
+               window.location.href = `/page/${id}`;
+            }, 
 
-    window.location.href = `/page/${elem.id}`;
-  }
+            fetchData(data){
+                document.getElementById('modal-loading').classList.remove('to-hide')
 
-</script>
+                const form = document.getElementById('form-create-user')
+                const formData = new FormData(form)
+
+                axios.post('/create-user', formData,{
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  }
+                })    
+                .then(function (res) {
+                      alert(`${res.data.msg}`)
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                })
+                .catch(function (error) {
+                      console.log(error);
+                      alert('Erro! tente novamente')
+                      document.getElementById('modal-loading').classList.add('to-hide')
+                });  
+            }
+        }
+    }
+
+    Vue.createApp(user).mount("#app")
+            
+</script>     
 @endpush
